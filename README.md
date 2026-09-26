@@ -1,3 +1,5 @@
+> Deployment repair (v1.0.1): This edition includes a visible public/robots.txt and a build check, so the public directory is preserved during manual GitHub uploads. Replace the root vercel.json and package.json, and include build.cjs. Remove the obsolete dist folder from the repository. The deployed Static Assets list must not contain private/, dist/, schema.sql or server/. Delete the earlier exposed deployment after the corrected production deployment succeeds; old deployment URLs can remain available. No Supabase schema changes are needed.
+
 # CMHK — protected Vercel edition
 
 This package contains all seven existing form functions, signature uploads, separate PDF downloads and the bilingual disclaimer, with a server-enforced login added. It is a replacement Vercel project, not an extra static page to upload into the old `dist` folder.
@@ -38,7 +40,7 @@ Approval is an administrator-created allowlist entry, not an invitation email. C
 ## 4. Deploy the whole project to Vercel
 
 1. Extract this ZIP. Use its contents as the repository root. Remove the old static `dist` deployment and old public copies of form files. Do NOT keep the previous build/output settings or deploy only `private/tool`.
-2. Import the repository into Vercel. Framework preset: **Other**. Root Directory: the directory containing this `vercel.json`. Build Command: empty. Output Directory: **public**. Node: **22.x**. There are no npm dependencies to install.
+2. Import the repository into Vercel. Framework preset: **Other**. Root Directory: the directory containing this `vercel.json`. Build Command: `node build.cjs`. Output Directory: **public**. Node: **22.x**. There are no npm dependencies to install.
 3. In Settings → Environment Variables, add the following for Production. Keep all values server-side; do not prefix them `NEXT_PUBLIC_` or `VITE_`.
 
 | Name | Value |

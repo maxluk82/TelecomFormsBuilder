@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=__dirname,cfg=JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
+assert.equal(cfg.outputDirectory,'public','Output Directory must be public.');
+assert.equal(cfg.buildCommand,'node build.cjs','Build Command must be node build.cjs.');
+assert(cfg.rewrites.some(r=>r.source==='/'&&r.destination==='/api/gateway?__path='),'Root must route through the authentication gateway.');
+for(const file of ['api/gateway.js','server/security.cjs','private/login.html','private/tool/index.html'])assert(fs.existsSync(path.join(root,file)),`Missing ${file}. Upload the complete secure project.`);
+const output=path.join(root,'public');fs.mkdirSync(output,{recursive:true});
+for(const file of fs.readdirSync(output))assert(['.gitkeep','robots.txt'].includes(file),`Unexpected public file ${file}. Only robots.txt belongs in public; do not expose private/tool or dist.`);
+fs.writeFileSync(path.join(output,'robots.txt'),'User-agent: *\nDisallow: /\n');
+console.log('Secure output verified: public contains no tool files. Requests route through api/gateway.');

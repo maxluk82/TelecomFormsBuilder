@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "",
+  "buildCommand": "node build.cjs",
   "outputDirectory": "public",
   "functions": {
     "api/gateway.js": {
@@ -8,6 +8,10 @@
     }
   },
   "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/gateway?__path="
+    },
     {
       "source": "/:path*",
       "destination": "/api/gateway?__path=:path*"
