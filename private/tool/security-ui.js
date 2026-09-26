@@ -1,0 +1,4 @@
+async function requireToolSession(){try{const r=await fetch('/auth/session',{cache:'no-store'});if(!r.ok){location.replace('/login');return false;}return true;}catch{return false;}}
+async function recordGeneration(task){const r=await fetch('/auth/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task})});if(r.status===401){location.replace('/login');return false;}if(!r.ok)throw new Error('audit');return true;}
+document.getElementById('secure-logout').onclick=async()=>{try{await fetch('/auth/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});}finally{location.replace('/login');}};
+setInterval(requireToolSession,60000);window.addEventListener('pageshow',requireToolSession);document.addEventListener('visibilitychange',()=>{if(!document.hidden)requireToolSession();});

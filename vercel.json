@@ -1,1 +1,16 @@
-{"framework":null,"buildCommand":"","outputDirectory":"dist"}
+{
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": "public",
+  "functions": {
+    "api/gateway.js": {
+      "includeFiles": "private/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/api/gateway?__path=:path*"
+    }
+  ]
+}
